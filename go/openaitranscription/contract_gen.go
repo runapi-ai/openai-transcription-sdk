@@ -1,0 +1,3 @@
+package openaitranscription
+
+var contractSchema = map[string]any{"speech-to-text": map[string]any{"models": []any{"gpt-transcribe", "whisper-1"}, "fields_by_model": map[string]any{"gpt-transcribe": map[string]any{"file": map[string]any{"required": true}, "model": map[string]any{"enum": []any{"gpt-transcribe"}}, "response_format": map[string]any{"enum": []any{"json", "text"}}, "temperature": map[string]any{"min": 0, "max": 1}}, "whisper-1": map[string]any{"file": map[string]any{"required": true}, "model": map[string]any{"enum": []any{"whisper-1"}}, "response_format": map[string]any{"enum": []any{"json", "text", "srt", "verbose_json", "vtt"}}, "temperature": map[string]any{"min": 0, "max": 1}, "timestamp_granularities": map[string]any{"max_items": 2}}}}}
