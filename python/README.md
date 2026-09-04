@@ -9,4 +9,6 @@ client = OpenaiTranscriptionClient()
 result = client.speech_to_text.run("audio.mp3")
 ```
 
-The result is a dictionary for JSON response formats and a string for text or subtitle formats. See [OpenAI Transcription](https://runapi.ai/models/openai-transcription) for supported models, formats, and pricing.
+`run()` returns the same terminal result whether the request completes directly or is accepted for background processing. The result is a dictionary for JSON response formats and a string for text or subtitle formats. Call `subscribe(location)` to resume an accepted request from its opaque Task Result URL.
+
+See [OpenAI Transcription](https://runapi.ai/models/openai-transcription) for supported models, formats, and pricing.

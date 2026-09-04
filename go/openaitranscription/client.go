@@ -44,9 +44,44 @@ type SpeechToText struct{ http core.HTTPClient }
 // DefaultModel is the transcription model used when the caller omits one.
 const DefaultModel = "whisper-1"
 
-// Run transcribes an audio file synchronously and returns the exact response bytes.
-func (r *SpeechToText) Run(ctx context.Context, params SpeechToTextParams, opts ...option.RequestOption) (json.RawMessage, error) {
+// Create submits a transcription and returns either its exact terminal bytes or
+// an accepted Task that can be resumed through Subscribe.
+func (r *SpeechToText) Create(ctx context.Context, params SpeechToTextParams, opts ...option.RequestOption) (*core.HybridCreateResponse[json.RawMessage], error) {
 	requestOptions, _ := option.ResolveRequestOptions(opts...)
+	body, err := speechToTextBody(params)
+	if err != nil {
+		return nil, err
+	}
+	return core.CreateHybrid[json.RawMessage](ctx, r.http, speechToTextPath, body, requestOptions)
+}
+
+// Subscribe follows an accepted transcription Task and returns its exact
+// terminal response bytes.
+func (r *SpeechToText) Subscribe(ctx context.Context, acceptance *core.HybridAcceptance, opts ...option.RequestOption) (json.RawMessage, error) {
+	requestOptions, pollingOptions := option.ResolveRequestOptions(opts...)
+	response, err := core.SubscribeHybrid[json.RawMessage](ctx, r.http, acceptance, requestOptions, pollingOptions)
+	if err != nil {
+		return nil, err
+	}
+	return *response, nil
+}
+
+// Run returns the exact transcription bytes whether the endpoint completes
+// directly or first returns 202 Accepted.
+func (r *SpeechToText) Run(ctx context.Context, params SpeechToTextParams, opts ...option.RequestOption) (json.RawMessage, error) {
+	requestOptions, pollingOptions := option.ResolveRequestOptions(opts...)
+	body, err := speechToTextBody(params)
+	if err != nil {
+		return nil, err
+	}
+	response, err := core.RunHybrid[json.RawMessage](ctx, r.http, speechToTextPath, body, requestOptions, pollingOptions)
+	if err != nil {
+		return nil, err
+	}
+	return *response, nil
+}
+
+func speechToTextBody(params SpeechToTextParams) (core.MultipartBody, error) {
 	// Fill the documented default before validating: an empty Model is dropped
 	// by CompactParams, and the contract's model enum would then reject the
 	// request instead of applying the default.
@@ -55,7 +90,7 @@ func (r *SpeechToText) Run(ctx context.Context, params SpeechToTextParams, opts 
 	}
 	compact := core.CompactParams(params)
 	if err := core.ValidateParams(contractSchema["speech-to-text"], compact); err != nil {
-		return nil, err
+		return core.MultipartBody{}, err
 	}
 
 	fields := make(map[string]string)
@@ -82,7 +117,7 @@ func (r *SpeechToText) Run(ctx context.Context, params SpeechToTextParams, opts 
 	if contentType == "" {
 		contentType = "application/octet-stream"
 	}
-	body := core.MultipartBody{
+	return core.MultipartBody{
 		Fields: fields,
 		RepeatedFields: map[string][]string{
 			"languages[]":               params.Languages,
@@ -92,7 +127,5 @@ func (r *SpeechToText) Run(ctx context.Context, params SpeechToTextParams, opts 
 		Files: map[string]core.MultipartFile{
 			"file": {Path: params.File, FileName: filepath.Base(params.File), ContentType: contentType},
 		},
-	}
-
-	return r.http.Request(ctx, "POST", speechToTextPath, &core.HTTPRequestOptions{Body: body, Request: requestOptions})
+	}, nil
 }

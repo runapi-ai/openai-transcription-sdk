@@ -12,9 +12,10 @@ from ..contract_gen import CONTRACT
 
 
 class SpeechToText(Resource):
-    """Transcribe an uploaded audio file synchronously."""
+    """Transcribe an uploaded audio file."""
 
     ENDPOINT = "/v1/audio/transcriptions"
+    RESPONSE_CLASS = None
 
     def run(self, file: str, options: Optional[RequestOptions] = None, **params: Any) -> Any:
         compacted = self._compact_params({"file": file, "model": params.pop("model", None) or "whisper-1", **params})
@@ -39,4 +40,4 @@ class SpeechToText(Resource):
                 )
             },
         )
-        return self._http.request("post", self.ENDPOINT, body=body, options=options)
+        return self._run_hybrid("post", self.ENDPOINT, body=body, options=options)

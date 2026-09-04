@@ -1,5 +1,21 @@
 # Changelog
 
+## [python/v0.2.0](https://github.com/runapi-ai/openai-transcription-sdk/releases/tag/python%2Fv0.2.0) - 2026-09-04
+
+### Added
+- Automatically follow accepted transcription Tasks while preserving JSON, text, SRT, and VTT terminal results.
+
+## [go/v0.2.0](https://github.com/runapi-ai/openai-transcription-sdk/releases/tag/go%2Fv0.2.0) - 2026-09-04
+
+### Added
+- Add Create, Subscribe, and automatic Run support for accepted transcription Tasks while preserving JSON, text, SRT, and VTT response bytes.
+
+## [ruby/v0.2.0](https://github.com/runapi-ai/openai-transcription-sdk/releases/tag/ruby%2Fv0.2.0) - 2026-09-04
+
+### Added
+- Add run and subscribe support for hybrid Task responses.
+
+
 ## [ruby/v0.1.1](https://github.com/runapi-ai/openai-transcription-sdk/releases/tag/ruby%2Fv0.1.1) - 2026-08-18
 
 ### Changed

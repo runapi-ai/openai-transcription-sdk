@@ -10,7 +10,7 @@ from .resources.speech_to_text import SpeechToText
 
 
 class OpenaiTranscriptionClient(ProviderClient):
-    """Client for synchronous audio transcription."""
+    """Client for audio transcription."""
 
     def __init__(self, api_key: Optional[str] = None, **options: Any) -> None:
         super().__init__(api_key, **options)
