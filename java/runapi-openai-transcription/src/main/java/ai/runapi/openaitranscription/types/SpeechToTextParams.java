@@ -67,15 +67,15 @@ public final class SpeechToTextParams {
     private Builder() {}
     public Builder file(Path value) { file = Objects.requireNonNull(value, "file"); return this; }
     public Builder file(String value) { file = java.nio.file.Paths.get(nonBlank(value, "file")); return this; }
-    public Builder model(String value) { model = nonBlank(value, "model"); return this; }
+    public Builder model(String value) { model = value; return this; }
     public Builder prompt(String value) { prompt = value; return this; }
     public Builder language(String value) { language = value; return this; }
-    public Builder languageHint(String value) { languages.add(nonBlank(value, "language")); return this; }
-    public Builder keyword(String value) { keywords.add(nonBlank(value, "keyword")); return this; }
+    public Builder languageHint(String value) { languages.add(value); return this; }
+    public Builder keyword(String value) { keywords.add(value); return this; }
     public Builder temperature(double value) { temperature = value; return this; }
-    public Builder responseFormat(String value) { responseFormat = nonBlank(value, "responseFormat"); return this; }
+    public Builder responseFormat(String value) { responseFormat = value; return this; }
     public Builder stream(boolean value) { stream = value; return this; }
-    public Builder timestampGranularity(String value) { timestampGranularities.add(nonBlank(value, "timestampGranularity")); return this; }
+    public Builder timestampGranularity(String value) { timestampGranularities.add(value); return this; }
     public SpeechToTextParams build() { return new SpeechToTextParams(this); }
   }
 

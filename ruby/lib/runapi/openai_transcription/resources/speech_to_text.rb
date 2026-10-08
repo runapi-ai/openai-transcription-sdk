@@ -14,7 +14,6 @@ module RunApi
 
         def run(file:, options: nil, **params)
           params = compact_params({file:, model: params.delete(:model) || "whisper-1", **params})
-          validate_contract!(CONTRACT["speech-to-text"], params)
           fields = params.except(:file, :languages, :keywords, :timestamp_granularities)
           fields["languages[]"] = params[:languages] if params[:languages]
           fields["keywords[]"] = params[:keywords] if params[:keywords]
@@ -28,7 +27,6 @@ module RunApi
 
         def subscribe(file:, options: nil, **params)
           params = compact_params({file:, model: params.delete(:model) || "whisper-1", **params})
-          validate_contract!(CONTRACT["speech-to-text"], params)
           fields = params.except(:file, :languages, :keywords, :timestamp_granularities)
           [:languages, :keywords, :timestamp_granularities].each do |key|
             fields["#{key}[]"] = params[key] if params.key?(key)

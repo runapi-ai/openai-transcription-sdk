@@ -29,7 +29,7 @@ gem install runapi-openai-transcription
 go get github.com/runapi-ai/openai-transcription-sdk/go@latest
 ```
 
-For Java, install `ai.runapi:runapi-openai-transcription:0.1.0`.
+For Java, install `ai.runapi:runapi-openai-transcription:0.2.0`.
 The PHP package is released from the split repository at
 https://github.com/runapi-ai/openai-transcription-php.
 

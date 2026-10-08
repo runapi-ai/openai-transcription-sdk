@@ -82,15 +82,9 @@ func (r *SpeechToText) Run(ctx context.Context, params SpeechToTextParams, opts 
 }
 
 func speechToTextBody(params SpeechToTextParams) (core.MultipartBody, error) {
-	// Fill the documented default before validating: an empty Model is dropped
-	// by CompactParams, and the contract's model enum would then reject the
-	// request instead of applying the default.
+	// Apply the documented model default when constructing the multipart request.
 	if params.Model == "" {
 		params.Model = DefaultModel
-	}
-	compact := core.CompactParams(params)
-	if err := core.ValidateParams(contractSchema["speech-to-text"], compact); err != nil {
-		return core.MultipartBody{}, err
 	}
 
 	fields := make(map[string]string)

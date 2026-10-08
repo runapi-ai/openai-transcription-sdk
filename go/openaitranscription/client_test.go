@@ -86,8 +86,7 @@ func TestSpeechToTextRunSendsRepeatedMultipartFieldsAndPreservesRawResponse(t *t
 		Languages:      []string{"en", "zh"},
 		Keywords:       []string{"RunAPI", "release notes"},
 		Temperature:    &temperature,
-		ResponseFormat: "text",
-	})
+		ResponseFormat: "text"})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -116,8 +115,7 @@ func TestSpeechToTextRunDefaultsModelWhenOmitted(t *testing.T) {
 	client := NewClientWithHTTP(stub)
 
 	if _, err := client.SpeechToText.Run(context.Background(), SpeechToTextParams{
-		File: "/tmp/interview.mp3",
-	}); err != nil {
+		File: "/tmp/interview.mp3"}); err != nil {
 		t.Fatal(err)
 	}
 

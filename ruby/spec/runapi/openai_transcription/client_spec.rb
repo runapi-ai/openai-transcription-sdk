@@ -30,7 +30,7 @@ RSpec.describe RunApi::OpenaiTranscription::Resources::SpeechToText do
   end
 
   it "follows an accepted task result and preserves VTT text" do
-    location = "https://api.runapi.ai/api/v1/tasks/task-1/result"
+    location = "https://runapi.ai/api/v1/tasks/task-1/result"
     allow(http).to receive(:request).and_return(
       RunApi::Core::Response.new(
         body: {"id" => "task-1", "status" => "processing"},

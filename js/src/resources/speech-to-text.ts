@@ -1,6 +1,4 @@
-import type { ActionSchema, HttpClient, RequestOptions } from '@runapi.ai/core';
-import { validateParams } from '@runapi.ai/core';
-import { contract } from '../contract_gen';
+import type { HttpClient, RequestOptions } from '@runapi.ai/core';
 import type { SpeechToTextParams, SpeechToTextResponse } from '../types';
 
 const ENDPOINT = '/v1/audio/transcriptions';
@@ -12,8 +10,6 @@ export class SpeechToText {
   async run(params: SpeechToTextParams, options?: RequestOptions): Promise<SpeechToTextResponse> {
     const model = params.model ?? 'whisper-1';
     const fileName = params.filename ?? this.fileName(params.file);
-    const validationParams = { ...params, file: fileName, model } as unknown as Record<string, unknown>;
-    validateParams(contract['speech-to-text'] as ActionSchema, validationParams);
 
     const form = new FormData();
     form.append('file', params.file, fileName);

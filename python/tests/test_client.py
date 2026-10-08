@@ -61,8 +61,7 @@ def test_defaults_model_and_preserves_json(tmp_path: Path):
             "text/vtt; charset=utf-8",
             "WEBVTT\n\n00:00.000 --> 00:01.000\nHello",
             "WEBVTT\n\n00:00.000 --> 00:01.000\nHello",
-        ),
-    ],
+        )],
 )
 def test_run_follows_accepted_task_result_and_preserves_terminal_format(
     tmp_path: Path, response_format, content_type, terminal_body, expected
@@ -75,14 +74,12 @@ def test_run_follows_accepted_task_result_and_preserves_terminal_format(
         ApiResponse(
             {
                 "id": "task_1",
-                "status": "completed",
+                "status": "completed", "usage": {"cost": 0.05},
                 "response": {
                     "status": 200,
                     "content_type": content_type,
                     "headers": {},
-                    "body": terminal_body,
-                },
-            }
+                    "body": terminal_body}}
         ),
     )
     client = OpenaiTranscriptionClient(api_key="k", http_client=fake)
@@ -92,8 +89,7 @@ def test_run_follows_accepted_task_result_and_preserves_terminal_format(
     assert result == expected
     assert [call[:2] for call in fake.calls] == [
         ("post", "/v1/audio/transcriptions"),
-        ("get", location),
-    ]
+        ("get", location)]
     assert fake.calls[0][2].files["file"].filename == "sample.wav"
     assert fake.options[0].headers["Idempotency-Key"]
     assert fake.options[1].headers == fake.options[0].headers

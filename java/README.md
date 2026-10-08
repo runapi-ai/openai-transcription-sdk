@@ -5,7 +5,7 @@ OpenAI-compatible audio transcription through RunAPI.
 ## Install
 
 ```kotlin
-implementation("ai.runapi:runapi-openai-transcription:0.1.0")
+implementation("ai.runapi:runapi-openai-transcription:0.2.0")
 ```
 
 ```java

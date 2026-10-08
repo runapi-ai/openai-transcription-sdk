@@ -3,7 +3,6 @@ package ai.runapi.openaitranscription.resources;
 import ai.runapi.core.ApiRequestExecutor;
 import ai.runapi.core.ClientOptions;
 import ai.runapi.core.RequestOptions;
-import ai.runapi.core.contract.ContractValidator;
 import ai.runapi.core.http.HttpMethod;
 import ai.runapi.core.http.HttpRequest;
 import ai.runapi.core.http.HttpResponse;
@@ -25,7 +24,6 @@ public final class SpeechToTextResource {
 
   public TranscriptionResponse run(SpeechToTextParams params, RequestOptions options) {
     Map<String, Object> values = params.toMap();
-    ContractValidator.validate("openai-transcription/speech-to-text", values);
     MultipartRequestBody.Builder body = MultipartRequestBody.builder();
     for (Map.Entry<String, Object> field : values.entrySet()) {
       if (!"file".equals(field.getKey()) && !(field.getValue() instanceof Iterable)) body.field(field.getKey(), String.valueOf(field.getValue()));

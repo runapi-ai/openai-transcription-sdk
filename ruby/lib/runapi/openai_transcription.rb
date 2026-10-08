@@ -2,7 +2,6 @@
 
 require "runapi/core"
 require_relative "openai_transcription/types"
-require_relative "openai_transcription/contract_gen"
 require_relative "openai_transcription/resources/speech_to_text"
 require_relative "openai_transcription/client"
 

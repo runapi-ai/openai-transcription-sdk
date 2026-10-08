@@ -8,8 +8,6 @@ from typing import Any, Optional
 
 from runapi.core import MultipartBody, MultipartFile, RequestOptions, Resource
 
-from ..contract_gen import CONTRACT
-
 
 class SpeechToText(Resource):
     """Transcribe an uploaded audio file."""
@@ -19,7 +17,6 @@ class SpeechToText(Resource):
 
     def run(self, file: str, options: Optional[RequestOptions] = None, **params: Any) -> Any:
         compacted = self._compact_params({"file": file, "model": params.pop("model", None) or "whisper-1", **params})
-        self._validate_contract(CONTRACT["speech-to-text"], compacted)
 
         path = Path(file)
         fields = {
